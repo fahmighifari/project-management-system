@@ -1,0 +1,144 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+<div class="container">
+  <h1>Projects</h1>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Filter</h3>
+    </div>
+    <div class="panel-body">
+      <form method="GET">
+        <input type="hidden" name="page" value="<%= pagination.page %>">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">
+            <input class="form-check-input" type="checkbox" name="cid" value="True" <%= query.cid ? " checked" : ""%>>
+            ID
+          </label>
+          <div class="col-sm-10">
+            <input class="form-control" type="number" name="id" value="<%= query.id %>"  placeholder="id">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">
+            <input class="form-check-input"  type="checkbox" name="cname" value="True"<%= query.cname ? " checked" : ""%>>
+            Name
+          </label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="name"  value="<%= query.name %>" placeholder="name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">
+            <input class="form-check-input"  type="checkbox" name="cmember" value="True"<%= query.cmember ? " checked" : ""%>>
+            Member</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="member">
+                <option value="">choose a member...</option>
+                <% for(let x=0; x<userData.length; x++) { %>
+                  <option value="<%=userData[x].userid%>"<%= (Number(query.member) === userData[x].userid) ? " selected" : ""%>><%=userData[x].firstname + " " + userData[x].lastname %></option>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" name="submit" class="btn btn-primary">Search</button>
+                <a href="/projects" class="btn btn-primary">Reset</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Options</h3>
+        </div>
+        <div class="panel-body">
+          <form class="" action="/projects/projectcolumn" method="post">
+            <div class="form-group row">
+              <label class="col-sm-2 control-label">columns</label>
+              <div class="col-sm-10">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="coid" value="true"<%= projectcolumns.coid ? " checked" : ""%>>
+                    ID
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="coname" value="true"<%= projectcolumns.coname ? " checked" : ""%>>
+                    Name
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="comembers" value="true"<%= projectcolumns.comembers ? " checked" : ""%>>
+                    Members
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+      <table class="table table-striped ">
+        <thead>
+          <tr>
+            <% if(projectcolumns.coid) { %><th>#</th><% } %>
+            <% if(projectcolumns.coname) { %><th>Name</th><% } %>
+            <% if(projectcolumns.comembers) { %><th>Members</th><% } %>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%if (listData.length > 0) { %>
+            <% for(let i = 0; i<listData.length; i++) { %>
+              <tr>
+                <% if(projectcolumns.coid) { %>
+                  <td><a href="/projects/details/<%=listData[i].projectid%>/overview"><%= listData[i].projectid %></a></td>
+                  <% } %>
+                <% if(projectcolumns.coname) { %><td><%= listData[i].name %></td><% } %>
+                <% if(projectcolumns.comembers) { %> <% console.log(listData[i]) %> <td class="col-md-6"><%= listData[i].members.map(function(item) {return `${item.name} (${item.role})` }).join(', ') %></td><% } %>
+                <td>
+                  <a href='/projects/edit/<%= listData[i].projectid %>'>
+                    <button class="btn btn-success" type="button" name="button">
+                      edit
+                    </button>
+                  </a>
+                  <a href='/projects/delete/<%= listData[i].projectid %>'>
+                    <button class="btn btn-danger" type="button" name="button"
+                    onclick="return confirm('yakin ingin banget menghapus data ini?')">
+                    delete
+                  </button>
+                </a>
+              </td>
+            </tr>
+            <% } %>
+            <% } %>
+          </tbody>
+        </table>
+
+        <ul class="pagination">
+          <% console.log("this is url on list.ejs: ", pagination.url) %>
+          <% if(pagination.page > 1){ %><li><a href="/projects<%= pagination.url.replace(`/?page=${pagination.page}`, `/?page=${pagination.page - 1}`) %>">Previous</a></li> <% } %>
+          <% for(let i = 1; i <= pagination.pages; i++){ %>
+          <li class="<%= (pagination.page == i) ? 'active' : ''%>"><a href="/projects<%= pagination.url.replace(`/?page=${pagination.page}`, `/?page=${i}`) %>"><%= i %></a></li>
+          <% } %>
+          <% if(pagination.pages > pagination.page){ %><li><a href="/projects<%= pagination.url.replace(`/?page=${pagination.page}`, `/?page=${pagination.page + 1}`) %>">Next</a></li> <% } %>
+        </ul>
+        <!-- <p><%= `Showing ${pagination.offset + 1} to ${(pagination.offset + pagination.limit > pagination.total) ? pagination.total : pagination.offset + pagination.limit} of ${pagination.total} ${(pagination.total > 1) ? 'entries' : 'entry'}` %></p> -->
+        <br>
+
+
+        <% if(userSession.privilege === "Admin") { %><a href="/projects/add" class="btn btn-primary">Add</a><% } %>
+      </div>
+
+      <% include ../partials/footer %>

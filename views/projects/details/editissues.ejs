@@ -1,0 +1,195 @@
+<% include ../../partials/header %>
+<% include ../../partials/menu %>
+
+<div class="container" style="float: left; width: 20%">
+  <ul class="nav nav-sidebar">
+    <li><a href="/projects/details/<%=idURL%>/overview">Overview <span class="sr-only">(current)</span></a></li>
+    <li><a href="/projects/details/<%=idURL%>/activity">Activity</a></li>
+    <li>&nbsp</li>
+  </ul>
+  <ul class="nav nav-sidebar">
+    <li><a href="/projects/details/<%=idURL%>/members">Members</a></li>
+    <li class="activesidebar"><a href="/projects/details/<%=idURL%>/issues">Issues</a></li>
+  </ul>
+</div>
+<div class="container" style="float: right; width: 80%">
+  <div class="page-header">
+    <h1><%=selectedIssueData.subject%></h1>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+        <form method="POST">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+              Tracker
+            </label>
+            <div class="col-sm-10">
+              <div class="radio">
+                <label>
+                  <input type="radio" name="tracker" value="Bug"<%=(selectedIssueData.tracker === "Bug") ? " checked" : ""%> required>
+                  Bug
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="tracker"  value="Feature"<%=(selectedIssueData.tracker === "Feature") ? " checked" : ""%> >
+                  Feature
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="tracker" value="Support"<%=(selectedIssueData.tracker === "Support") ? " checked" : ""%>>
+                  Support
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Subject</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="text" name="subject"  value="<%=selectedIssueData.subject%>" placeholder="Subject">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" rows="5" name="description" placeholder="Description" required><%=selectedIssueData.description%></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">
+                Status
+              </label>
+              <div class="col-sm-10">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="status" value="New"<%=(selectedIssueData.status === "New") ? " checked" : ""%> required>
+                    New
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="status" value="In Progress"<%=(selectedIssueData.status === "In Progress") ? " checked" : ""%>>
+                    In Progress
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="status" value="Resolved"<%=(selectedIssueData.status === "Resolved") ? " checked" : ""%>>
+                    Resolved
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="status" value="Feedback"<%=(selectedIssueData.status === "Feedback") ? " checked" : ""%>>
+                    Feedback
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="status" value="Closed"<%=(selectedIssueData.status === "Closed") ? " checked" : ""%>>
+                    Closed
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="status" value="Rejected"<%=(selectedIssueData.status === "Rejected") ? " checked" : ""%>>
+                    Rejected
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">
+                Priority
+              </label>
+              <div class="col-sm-10">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="priority" value="Normal"<%=(selectedIssueData.priority === "Normal") ? " checked" : ""%> required>
+                    Normal
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="priority" value="High"<%=(selectedIssueData.priority === "High") ? " checked" : ""%>>
+                    High
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="priority" value="Urgent"<%=(selectedIssueData.priority === "Urgent") ? " checked" : ""%>>
+                    Urgent
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="priority" value="Immediate"<%=(selectedIssueData.priority === "Immediate") ? " checked" : ""%>>
+                    Immediate
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Asignee</label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="asignee">
+                    <% for(let x = 0; x < membersData.length; x++) { %>
+                      <option value="<%=membersData[x].userid%>"><%= membersData[x].membername %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Start Date</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="date" name="startdate"  value="<%=selectedIssueData.startdate%>" placeholder="start date" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Due Date</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="date" name="duedate"  value="<%=selectedIssueData.duedate%>" placeholder="due date" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Estimated Time (minutes)</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="number" name="estimatedtime" value="<%=selectedIssueData.estimatedtime%>" placeholder="estimated time" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">% Done</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="number" name="percentagedone" value="<%=selectedIssueData.percentagedone%>" min="0" max="100" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Files</label>
+                <div class="col-sm-10">
+                  <% let filesObject = JSON.parse(selectedIssueData.files)%>
+                  <% for(let prop in filesObject) {%>
+                  <a href="../../../../../assets/<%=filesObject[prop]%>">
+                    <img src="../../../../../assets/<%=filesObject[prop]%>" height="42" width="42">
+                  </a>
+                  <a href="/projects/details/<%=idURL%>/issues/edit/<%=issueidURL%>/deleteimage/<%=filesObject[prop]%>"
+                  onclick="return confirm('Your current edit configuration will be lost and this will delete the image file, are you sure you want to do this?')">
+                    <span color="red" class="fa fa-trash"></span>
+                  </a>
+                  <% } %>
+                </div>
+              </div>
+
+
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/projects/details/<%=idURL%>/issues/edit/<%=issueidURL%>" class="btn btn-primary">Reset</a>
+                <a href="/projects/details/<%=idURL%>/issues" class="btn btn-primary">Cancel</a>
+              </div>
+            </div>
+          </form>
+    </div>
+  </div>
+
+  <% include ../../partials/footer %>

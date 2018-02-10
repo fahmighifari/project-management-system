@@ -1,0 +1,49 @@
+<% include ../../partials/header %>
+<% include ../../partials/menu %>
+
+<div class="container" style="float: left; width: 20%">
+  <ul class="nav nav-sidebar">
+    <li><a href="/projects/details/<%=idURL%>/overview">Overview <span class="sr-only">(current)</span></a></li>
+    <li class="activesidebar"><a href="/projects/details/<%=idURL%>/activity">Activity</a></li>
+    <li>&nbsp</li>
+  </ul>
+  <ul class="nav nav-sidebar">
+    <li><a href="/projects/details/<%=idURL%>/members">Members</a></li>
+    <li><a href="/projects/details/<%=idURL%>/issues">Issues</a></li>
+  </ul>
+</div>
+
+<div class="container" style="float: right; width: 80%">
+  <div class="page-header">
+    <h1>Activity</h1>
+  </div>
+  <h2><%=  %> </h2>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><b>Logs</b></h3>
+    </div>
+    <div class="panel-body">
+      <div class="container">
+        <p>From <%= date.weekAgo %> to <%= date.today%></p>
+        <%console.log(logDate)%>
+        <% for(var x = 0; x< 7; x++) { %>
+          <% if(logDate[x][2].length !== 0) { %>
+            <% if(x === 0) { %>
+              <%= `${logDate[x][1]} (Today)` %>
+              <% } else { %>
+                <%= `${logDate[x][1]}` %>
+                <% } %>
+                <ul>
+                  <% for(var y = 0; y<logDate[x][2].length; y++) { %>
+                    <li><%= `${logDate[x][2][y].hours} ${logDate[x][2][y].title}: ${logDate[x][2][y].description}, author: ${logDate[x][2][y].author}`  %></li>
+                    <% } %>
+                  </ul>
+                  <br>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% include ../../partials/footer %>

@@ -1,0 +1,76 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+<% console.log("Ini userData di frontEnd: ", userData) %>
+<div class="container">
+  <form class="form-horizontal" method="POST">
+    <div class="form-group">
+      <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email"  value="<%= userData.email %>" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail" class="col-sm-2 control-label">First Name</label>
+      <div class="col-sm-10">
+        <input class="form-control" id="firsName" name="firstname" placeholder="First Name" value="<%= userData.firstname %>">
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="inputEmail" class="col-sm-2 control-label">Last Name</label>
+      <div class="col-sm-10">
+        <input class="form-control" id="lastName" name="lastname" placeholder="Last Name" value="<%= userData.lastname %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Position</label>
+      <div class="col-sm-10">
+        <div class="radio">
+          <label>
+            <input type="radio" name="role" value="manager"<%= userData.role === "manager" ? " checked" : ""%>>
+            Manager
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="role" value="software developer"<%= userData.role === "software developer" ? " checked" : ""%>>
+            Software Developer
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="role" value="quality assurance"<%= userData.role === "quality assurance" ? " checked" : ""%>>
+            Quality Assurance
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Position</label>
+      <div class="col-sm-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="isfulltime" value="true"<%= userData.isfulltime ? " checked" : ""%>>
+            Full Time
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-1 col-sm-10">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary">Restore</button>
+      </div>
+    </div>
+  </form>
+</div>
+<% include ../partials/footer %>
